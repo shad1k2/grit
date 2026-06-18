@@ -22,7 +22,6 @@
 
 - 🔍 **Service Check** - Quick systemd service status
 - 📊 **Log Analysis** - View critical errors from journalctl
-- 🌐 **Network Scan** - Check open ports and processes
 - 💾 **Mounting** - Interactive partition mounting
 - 💾 **System Info** - RAM, disks, uptime
 - ⚡ **Instant Launch** - Single binary with no dependencies
