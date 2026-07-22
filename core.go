@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	GRIT_VER = "1.0.0"
+	GRIT_VER = "1.1.0"
 	AUTHOR   = "shad1k1"
 	LICENSE  = "GNU GPL v3"
 	GRIT_LOGO= `

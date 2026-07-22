@@ -18,15 +18,15 @@
 </div>
 **GRIT** is a system utility for Linux designed for system diagnostics and recovery. Written in Go for maximum speed and ease of use.
 
-## 🚀 Features
+##  Features
 
-- 🔍 **Service Check** - Quick systemd service status
-- 📊 **Log Analysis** - View critical errors from journalctl
-- 💾 **Mounting** - Interactive partition mounting
-- 💾 **System Info** - RAM, disks, uptime
-- ⚡ **Instant Launch** - Single binary with no dependencies
+-  **Service Check** - Quick systemd service status
+-  **Log Analysis** - View critical errors from journalctl
+-  **Mounting** - Interactive partition mounting
+-  **System Info** - RAM, disks, uptime
+-  **Instant Launch** - Single binary with no dependencies
 
-## 📦 Installation
+##  Installation
 
 ### Source-based
 ```bash

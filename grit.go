@@ -12,14 +12,30 @@ func showBanner() {
 	fmt.Println("\033[1;32m")
 	fmt.Println("  ██████╗  ██████╗  ██╗ ████████╗")
 	fmt.Println(" ██╔════╝  ██╔══██╗ ██║ ╚══██╔══╝")
-	fmt.Println(" ██║  ███╗ ██████╝ ██║    ██║")
+	fmt.Println(" ██║  ███╗ ██████╝  ██║    ██║")
 	fmt.Println(" ██║   ██║ ██╔══██╗ ██║    ██║")
 	fmt.Println(" ╚██████╔╝ ██║  ██║ ██║    ██║")
-	fmt.Println("  ╚═════╝  ╚═╝  ╚═╝ ═╝    ╚═╝")
+	fmt.Println("  ╚═════╝  ╚═╝  ╚═╝  ═╝    ╚═╝")
 	fmt.Println("\033[0m-------------------------------")
 }
 
 func main(){
+
+	if len(os.Args) > 1 {
+		switch os.Args[1] {
+			case "-v", "--version", "version":
+				fmt.Printf("GRIT v%s by %s (%s)\n", GRIT_VER, AUTHOR, LICENSE)
+				os.Exit(0)
+			case "-h", "--help", "help":
+				fmt.Println("GRIT - Go Recovery and Inspection Tool")
+				fmt.Println("\nUsage:")
+				fmt.Println("  grit            Start interactive recovery shell")
+				fmt.Println("  grit -h, --help Show this help message")
+				fmt.Println("  grit -v, --ver  Show version info")
+				os.Exit(0)
+		}
+	}
+
 	showBanner()
 
 	reader := bufio.NewReader(os.Stdin)
@@ -68,7 +84,7 @@ func main(){
 			fmt.Println("Availible commands: info, disks, mount, mem, service <name>, logs, clear, exit")
 			
 		case "clear":
-			 exec.Command("clear").Run()
+			 fmt.Print("\033[H\033[2J")
 			
 		case "ver", "version":
 			fmt.Printf("GRIT - Go Recovery and Inspection Tool v%s, Made by %s, licensed under %s \n", GRIT_VER, AUTHOR, LICENSE)
