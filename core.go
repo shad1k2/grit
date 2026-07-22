@@ -69,7 +69,7 @@ func checkLogs(){
 	}
 }
 
-func smartMount(){
+func smartMount() {
 	fmt.Println("\n\x1b[1;34m[*] Searching for partitions for mount...\x1b[0m\n")
 	cmd := exec.Command("sh", "-c", "lsblk -lnp -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT | grep 'part'")
 	output, err := cmd.Output()
@@ -77,41 +77,53 @@ func smartMount(){
 		fmt.Printf("[!] Error executing lsblk: %v\n", err)
 		return
 	}
+
 	parts := strings.Split(strings.TrimSpace(string(output)), "\n")
 	if len(parts) == 0 || parts[0] == "" {
 		fmt.Println("[!] Partitions not found.")
 		return
 	}
-    fmt.Println("ID\tDEVICE\t\tSIZE\tFS\tMOUNT")
+
+	fmt.Println("ID\tDEVICE\t\tSIZE\tFS\tMOUNT")
 	for id, line := range parts {
 		cols := strings.Fields(line)
-		if len(cols) < 5 {
+		if len(cols) < 2 {
 			continue
 		}
-		fs := cols[3]
-		if fs == "" {
-			fs = "unknown"
+
+		dev := cols[0]
+		size := cols[1]
+
+		fs := "unknown"
+		if len(cols) >= 4 {
+			fs = cols[3]
 		}
-		mount := cols[4]
-		if mount == "" {
-			mount = "-"
+
+		mount := "-"
+		if len(cols) >= 5 {
+			mount = cols[4]
 		}
-		fmt.Printf("[%d]\t%s\t%s\t%s\t%s\n", id, cols[0], cols[1], fs, mount)
+
+		fmt.Printf("[%d]\t%s\t%s\t%s\t%s\n", id, dev, size, fs, mount)
 	}
+
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Choose partition ID for mounting /mnt (or 'q'): ")
+	fmt.Print("\nChoose partition ID for mounting /mnt (or 'q'): ")
 	choiceStr, _ := reader.ReadString('\n')
 	choiceStr = strings.TrimSpace(choiceStr)
-	if choiceStr == "q"{
+	if choiceStr == "q" {
 		return
 	}
+
 	choice, err := strconv.Atoi(choiceStr)
 	if err != nil || choice < 0 || choice >= len(parts) {
 		fmt.Println("[!] Invalid ID.")
 		return
 	}
+
 	selected := strings.Fields(parts[choice])[0]
 	fmt.Printf("[*] Mounting %s to /mnt...\n", selected)
+
 	var stderr bytes.Buffer
 	mountCmd := exec.Command("mount", selected, "/mnt")
 	mountCmd.Stderr = &stderr
@@ -120,6 +132,6 @@ func smartMount(){
 	if err == nil {
 		fmt.Println("\033[1;32m[+] Ready! Disk files available at /mnt\033[0m")
 	} else {
-		fmt.Printf("\033[1;31m[!] Mount error: %s\033[0m", stderr.String())
+		fmt.Printf("\033[1;31m[!] Mount error: %s\033[0m\n", stderr.String())
 	}
 }
