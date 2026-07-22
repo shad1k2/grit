@@ -113,13 +113,12 @@ func smartMount(){
 	fmt.Printf("[*] Mounting %s to /mnt...\n", selected)
 	var stderr bytes.Buffer
 	mountCmd := exec.Command("mount", selected, "/mnt")
-	mountCmd.Stderr = &stderr // Подключаем буфер для stderr
+	mountCmd.Stderr = &stderr
 
 	err = mountCmd.Run()
 	if err == nil {
 		fmt.Println("\033[1;32m[+] Ready! Disk files available at /mnt\033[0m")
 	} else {
-		// Выводим конкретный текст ошибки от самой утилиты mount
 		fmt.Printf("\033[1;31m[!] Mount error: %s\033[0m", stderr.String())
 	}
 }
